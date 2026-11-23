@@ -19,7 +19,7 @@ jobs:
           docker run --detach --name iris-api -p 127.0.0.1:8000:8000 iris-api
       - name: Check health, a prediction, and invalid input
         run: |
-          curl --fail --silent --show-error --retry 15 --retry-connrefused --retry-delay 1 \
+          curl --fail --silent --show-error --retry 20 --retry-all-errors --retry-delay 1 --max-time 4 \
             http://127.0.0.1:8000/health | python -c 'import json, sys; assert json.load(sys.stdin) == {"status": "ok"}'
           curl --fail --silent --show-error http://127.0.0.1:8000/predict \
             -H 'Content-Type: application/json' \
